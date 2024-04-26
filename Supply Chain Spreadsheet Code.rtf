@@ -1,0 +1,551 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red20\green67\blue174;\red246\green247\blue249;\red46\green49\blue51;
+\red24\green25\blue27;\red186\green6\blue115;\red77\green80\blue85;\red162\green0\blue16;\red18\green115\blue126;
+}
+{\*\expandedcolortbl;;\cssrgb\c9412\c35294\c73725;\cssrgb\c97255\c97647\c98039;\cssrgb\c23529\c25098\c26275;
+\cssrgb\c12549\c12941\c14118;\cssrgb\c78824\c15294\c52549;\cssrgb\c37255\c38824\c40784;\cssrgb\c70196\c7843\c7059;\cssrgb\c3529\c52157\c56863;
+}
+\margl1440\margr1440\vieww16380\viewh11360\viewkind0
+\deftab720
+\pard\pardeftab720\sl400\partightenfactor0
+
+\f0\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 onOpen\cf4 \strokec4 () \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 ui\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getUi\cf4 \strokec4 ();\cb1 \
+\cb3   \cb1 \
+\cb3   \cf7 \strokec7 // Create the main menu\cf4 \cb1 \strokec4 \
+\cb3   \cf5 \strokec5 ui\cf4 \strokec4 .\cf5 \strokec5 createMenu\cf4 \strokec4 (\cf8 \strokec8 'Custom Menu'\cf4 \strokec4 )\cb1 \
+\cb3     .\cf5 \strokec5 addItem\cf4 \strokec4 (\cf8 \strokec8 'Create Custom Social Approval Doc'\cf4 \strokec4 , \cf8 \strokec8 'createCustomSocialApprovalDoc'\cf4 \strokec4 )\cb1 \
+\cb3     .\cf5 \strokec5 addItem\cf4 \strokec4 (\cf8 \strokec8 'Assign Topics'\cf4 \strokec4 , \cf8 \strokec8 'assignTopics'\cf4 \strokec4 )\cb1 \
+\cb3     .\cf5 \strokec5 addItem\cf4 \strokec4 (\cf8 \strokec8 'Create City Master Sheet'\cf4 \strokec4 , \cf8 \strokec8 'createCityMasterSheet'\cf4 \strokec4 )\cb1 \
+\cb3     .\cf5 \strokec5 addItem\cf4 \strokec4 (\cf8 \strokec8 'Autofill Client Sheets'\cf4 \strokec4 , \cf8 \strokec8 'autofillClientSheets'\cf4 \strokec4 )\cb1 \
+\cb3     .\cf5 \strokec5 addItem\cf4 \strokec4 (\cf8 \strokec8 'Count Properties'\cf4 \strokec4 , \cf8 \strokec8 'countProperties'\cf4 \strokec4 )\cb1 \
+\cb3     .\cf5 \strokec5 addItem\cf4 \strokec4 (\cf8 \strokec8 'Create Email List'\cf4 \strokec4 , \cf8 \strokec8 'createEmailList'\cf4 \strokec4 )\cb1 \
+\cb3     .\cf5 \strokec5 addItem\cf4 \strokec4 (\cf8 \strokec8 'Copy and Clear Data'\cf4 \strokec4 , \cf8 \strokec8 'copyAndClearData'\cf4 \strokec4 )\cb1 \
+\cb3     \cb1 \
+\cb3     \cf7 \strokec7 // Create a sub-menu for Multifamily Copywriting\cf4 \cb1 \strokec4 \
+\cb3     .\cf5 \strokec5 addSubMenu\cf4 \strokec4 (\cf5 \strokec5 ui\cf4 \strokec4 .\cf5 \strokec5 createMenu\cf4 \strokec4 (\cf8 \strokec8 'Multifamily Copywriting'\cf4 \strokec4 )\cb1 \
+\cb3       .\cf5 \strokec5 addItem\cf4 \strokec4 (\cf8 \strokec8 'Create Title'\cf4 \strokec4 , \cf8 \strokec8 'createTitle'\cf4 \strokec4 )\cb1 \
+\cb3       .\cf5 \strokec5 addItem\cf4 \strokec4 (\cf8 \strokec8 'Create Subtitle'\cf4 \strokec4 , \cf8 \strokec8 'createSubtitle'\cf4 \strokec4 )\cb1 \
+\cb3       .\cf5 \strokec5 addItem\cf4 \strokec4 (\cf8 \strokec8 'Create Caption'\cf4 \strokec4 , \cf8 \strokec8 'createCaption'\cf4 \strokec4 )\cb1 \
+\cb3     )\cb1 \
+\cb3     .\cf5 \strokec5 addToUi\cf4 \strokec4 ();\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf7 \cb3 \strokec7 //to copy Event Name data, move it to the "Previous Month" column, and delete the rest\cf4 \cb1 \strokec4 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 copyAndClearData\cf4 \strokec4 () \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 spreadsheet\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getActiveSpreadsheet\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 sheets\cf4 \strokec4  = \cf5 \strokec5 spreadsheet\cf4 \strokec4 .\cf5 \strokec5 getSheets\cf4 \strokec4 ();\cb1 \
+\
+\cb3   \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 i\cf4 \strokec4  = \cf9 \strokec9 0\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4  < \cf5 \strokec5 sheets\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4 ++) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 sheet\cf4 \strokec4  = \cf5 \strokec5 sheets\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ];\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 rangeToCopy\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 "F2:F200"\cf4 \strokec4 );\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 dataToCopy\cf4 \strokec4  = \cf5 \strokec5 rangeToCopy\cf4 \strokec4 .\cf5 \strokec5 getValues\cf4 \strokec4 ();\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 rangeToPaste\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 "G2:G200"\cf4 \strokec4 );\cb1 \
+\cb3     \cb1 \
+\cb3     \cf5 \strokec5 rangeToPaste\cf4 \strokec4 .\cf5 \strokec5 setValues\cf4 \strokec4 (\cf5 \strokec5 dataToCopy\cf4 \strokec4 );\cb1 \
+\cb3     \cf5 \strokec5 rangeToCopy\cf4 \strokec4 .\cf5 \strokec5 clearContent\cf4 \strokec4 ();\cb1 \
+\cb3     \cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 rangeToDelete\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 "H2:M200"\cf4 \strokec4 );\cb1 \
+\cb3     \cf5 \strokec5 rangeToDelete\cf4 \strokec4 .\cf5 \strokec5 clearContent\cf4 \strokec4 ();\cb1 \
+\cb3   \}\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 copyAndClearData\cf4 \strokec4 () \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 spreadsheet\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getActiveSpreadsheet\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 sheets\cf4 \strokec4  = \cf5 \strokec5 spreadsheet\cf4 \strokec4 .\cf5 \strokec5 getSheets\cf4 \strokec4 ();\cb1 \
+\
+\cb3   \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 i\cf4 \strokec4  = \cf9 \strokec9 0\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4  < \cf5 \strokec5 sheets\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4 ++) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 sheet\cf4 \strokec4  = \cf5 \strokec5 sheets\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ];\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 rangeToCopy\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 "F2:F200"\cf4 \strokec4 );\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 dataToCopy\cf4 \strokec4  = \cf5 \strokec5 rangeToCopy\cf4 \strokec4 .\cf5 \strokec5 getValues\cf4 \strokec4 ();\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 rangeToPaste\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 "G2:G200"\cf4 \strokec4 );\cb1 \
+\cb3     \cb1 \
+\cb3     \cf5 \strokec5 rangeToPaste\cf4 \strokec4 .\cf5 \strokec5 setValues\cf4 \strokec4 (\cf5 \strokec5 dataToCopy\cf4 \strokec4 );\cb1 \
+\cb3     \cf5 \strokec5 rangeToCopy\cf4 \strokec4 .\cf5 \strokec5 clearContent\cf4 \strokec4 ();\cb1 \
+\cb3     \cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 rangeToDelete\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 "H2:M200"\cf4 \strokec4 );\cb1 \
+\cb3     \cf5 \strokec5 rangeToDelete\cf4 \strokec4 .\cf5 \strokec5 clearContent\cf4 \strokec4 ();\cb1 \
+\cb3   \}\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf7 \cb3 \strokec7 //to create a new sheet with all of the city names with a tally of the most frequently noted in the entire spreadsheet\cf4 \cb1 \strokec4 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 createCityMasterSheet\cf4 \strokec4 () \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 spreadsheet\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getActiveSpreadsheet\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 cityMasterSheet\cf4 \strokec4  = \cf5 \strokec5 spreadsheet\cf4 \strokec4 .\cf5 \strokec5 getSheetByName\cf4 \strokec4 (\cf8 \strokec8 "City Master"\cf4 \strokec4 );\cb1 \
+\cb3   \cb1 \
+\cb3   \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 cityMasterSheet\cf4 \strokec4  == \cf2 \strokec2 null\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf5 \strokec5 cityMasterSheet\cf4 \strokec4  = \cf5 \strokec5 spreadsheet\cf4 \strokec4 .\cf5 \strokec5 insertSheet\cf4 \strokec4 (\cf8 \strokec8 "City Master"\cf4 \strokec4 );\cb1 \
+\cb3     \cf5 \strokec5 cityMasterSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 "A1:E1"\cf4 \strokec4 ).\cf5 \strokec5 setValues\cf4 \strokec4 ([[\cf8 \strokec8 "City"\cf4 \strokec4 , \cf8 \strokec8 "Event Name"\cf4 \strokec4 , \cf8 \strokec8 "URL"\cf4 \strokec4 , \cf8 \strokec8 "Event Date"\cf4 \strokec4 , \cf8 \strokec8 "Frequency"\cf4 \strokec4 ]]);\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 sheets\cf4 \strokec4  = \cf5 \strokec5 spreadsheet\cf4 \strokec4 .\cf5 \strokec5 getSheets\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 cityData\cf4 \strokec4  = [];\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 cityFrequency\cf4 \strokec4  = \{\};\cb1 \
+\cb3   \cb1 \
+\cb3   \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 i\cf4 \strokec4  = \cf9 \strokec9 0\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4  < \cf5 \strokec5 sheets\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4 ++) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 sheet\cf4 \strokec4  = \cf5 \strokec5 sheets\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ];\cb1 \
+\cb3     \cb1 \
+\cb3     \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getName\cf4 \strokec4 () !== \cf8 \strokec8 "City Master"\cf4 \strokec4 ) \{\cb1 \
+\cb3       \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 dataRange\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 "B2:B150"\cf4 \strokec4 );\cb1 \
+\cb3       \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 data\cf4 \strokec4  = \cf5 \strokec5 dataRange\cf4 \strokec4 .\cf5 \strokec5 getValues\cf4 \strokec4 ();\cb1 \
+\cb3       \cb1 \
+\cb3       \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 j\cf4 \strokec4  = \cf9 \strokec9 0\cf4 \strokec4 ; \cf5 \strokec5 j\cf4 \strokec4  < \cf5 \strokec5 data\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ; \cf5 \strokec5 j\cf4 \strokec4 ++) \{\cb1 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 value\cf4 \strokec4  = \cf5 \strokec5 data\cf4 \strokec4 [\cf5 \strokec5 j\cf4 \strokec4 ][\cf9 \strokec9 0\cf4 \strokec4 ];\cb1 \
+\cb3         \cb1 \
+\cb3         \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 value\cf4 \strokec4  !== \cf8 \strokec8 ""\cf4 \strokec4 ) \{\cb1 \
+\cb3           \cf2 \strokec2 if\cf4 \strokec4  (!\cf5 \strokec5 cityFrequency\cf4 \strokec4 [\cf5 \strokec5 value\cf4 \strokec4 ]) \{\cb1 \
+\cb3             \cf5 \strokec5 cityData\cf4 \strokec4 .\cf5 \strokec5 push\cf4 \strokec4 (\cf5 \strokec5 value\cf4 \strokec4 );\cb1 \
+\cb3           \}\cb1 \
+\cb3           \cf5 \strokec5 cityFrequency\cf4 \strokec4 [\cf5 \strokec5 value\cf4 \strokec4 ] = (\cf5 \strokec5 cityFrequency\cf4 \strokec4 [\cf5 \strokec5 value\cf4 \strokec4 ] || \cf9 \strokec9 0\cf4 \strokec4 ) + \cf9 \strokec9 1\cf4 \strokec4 ;\cb1 \
+\cb3         \}\cb1 \
+\cb3       \}\cb1 \
+\cb3     \}\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cb1 \
+\cb3   \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 cityData\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4  > \cf9 \strokec9 0\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 lastRow\cf4 \strokec4  = \cf5 \strokec5 cityMasterSheet\cf4 \strokec4 .\cf5 \strokec5 getLastRow\cf4 \strokec4 ();\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 range\cf4 \strokec4  = \cf5 \strokec5 cityMasterSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf5 \strokec5 lastRow\cf4 \strokec4  + \cf9 \strokec9 1\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 , \cf5 \strokec5 cityData\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 );\cb1 \
+\cb3     \cf5 \strokec5 range\cf4 \strokec4 .\cf5 \strokec5 setValues\cf4 \strokec4 (\cf5 \strokec5 cityData\cf4 \strokec4 .\cf5 \strokec5 map\cf4 \strokec4 (\cf2 \strokec2 function\cf4 \strokec4 (\cf5 \strokec5 city\cf4 \strokec4 ) \{ \cf2 \strokec2 return\cf4 \strokec4  [\cf5 \strokec5 city\cf4 \strokec4 ]; \}));\cb1 \
+\
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 frequencyRange\cf4 \strokec4  = \cf5 \strokec5 cityMasterSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf5 \strokec5 lastRow\cf4 \strokec4  + \cf9 \strokec9 1\cf4 \strokec4 , \cf9 \strokec9 5\cf4 \strokec4 , \cf5 \strokec5 cityData\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 );\cb1 \
+\cb3     \cf5 \strokec5 frequencyRange\cf4 \strokec4 .\cf5 \strokec5 setValues\cf4 \strokec4 (\cf5 \strokec5 cityData\cf4 \strokec4 .\cf5 \strokec5 map\cf4 \strokec4 (\cf2 \strokec2 function\cf4 \strokec4 (\cf5 \strokec5 city\cf4 \strokec4 ) \{ \cf2 \strokec2 return\cf4 \strokec4  [\cf5 \strokec5 cityFrequency\cf4 \strokec4 [\cf5 \strokec5 city\cf4 \strokec4 ]]; \}));\cb1 \
+\cb3   \}\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf7 \cb3 \strokec7 //to back fill sheets with a local event from the City Master sheet\cf4 \cb1 \strokec4 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 autofillClientSheets\cf4 \strokec4 () \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 spreadsheet\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getActiveSpreadsheet\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 cityMasterSheet\cf4 \strokec4  = \cf5 \strokec5 spreadsheet\cf4 \strokec4 .\cf5 \strokec5 getSheetByName\cf4 \strokec4 (\cf8 \strokec8 "City Master"\cf4 \strokec4 );\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 clientSheets\cf4 \strokec4  = \cf5 \strokec5 spreadsheet\cf4 \strokec4 .\cf5 \strokec5 getSheets\cf4 \strokec4 ().\cf5 \strokec5 filter\cf4 \strokec4 (\cf2 \strokec2 function\cf4 \strokec4 (\cf5 \strokec5 sheet\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf2 \strokec2 return\cf4 \strokec4  \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getName\cf4 \strokec4 () !== \cf8 \strokec8 "City Master"\cf4 \strokec4 ;\cb1 \
+\cb3   \});\cb1 \
+\
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 cityMasterData\cf4 \strokec4  = \cf5 \strokec5 cityMasterSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf9 \strokec9 2\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 , \cf5 \strokec5 cityMasterSheet\cf4 \strokec4 .\cf5 \strokec5 getLastRow\cf4 \strokec4 () - \cf9 \strokec9 1\cf4 \strokec4 , \cf9 \strokec9 4\cf4 \strokec4 ).\cf5 \strokec5 getValues\cf4 \strokec4 ();\cb1 \
+\
+\cb3   \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 i\cf4 \strokec4  = \cf9 \strokec9 0\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4  < \cf5 \strokec5 cityMasterData\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4 ++) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 cityRow\cf4 \strokec4  = \cf5 \strokec5 cityMasterData\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ];\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 cityName\cf4 \strokec4  = \cf5 \strokec5 cityRow\cf4 \strokec4 [\cf9 \strokec9 0\cf4 \strokec4 ];\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 eventName\cf4 \strokec4  = \cf5 \strokec5 cityRow\cf4 \strokec4 [\cf9 \strokec9 1\cf4 \strokec4 ];\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 url\cf4 \strokec4  = \cf5 \strokec5 cityRow\cf4 \strokec4 [\cf9 \strokec9 2\cf4 \strokec4 ];\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 eventDate\cf4 \strokec4  = \cf5 \strokec5 cityRow\cf4 \strokec4 [\cf9 \strokec9 3\cf4 \strokec4 ];\cb1 \
+\
+\cb3     \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 cityName\cf4 \strokec4  !== \cf8 \strokec8 ""\cf4 \strokec4  && \cf5 \strokec5 eventName\cf4 \strokec4  !== \cf8 \strokec8 ""\cf4 \strokec4 ) \{\cb1 \
+\cb3       \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 j\cf4 \strokec4  = \cf9 \strokec9 0\cf4 \strokec4 ; \cf5 \strokec5 j\cf4 \strokec4  < \cf5 \strokec5 clientSheets\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ; \cf5 \strokec5 j\cf4 \strokec4 ++) \{\cb1 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 clientSheet\cf4 \strokec4  = \cf5 \strokec5 clientSheets\cf4 \strokec4 [\cf5 \strokec5 j\cf4 \strokec4 ];\cb1 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 cityRange\cf4 \strokec4  = \cf5 \strokec5 clientSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 "B2:B"\cf4 \strokec4  + \cf5 \strokec5 clientSheet\cf4 \strokec4 .\cf5 \strokec5 getLastRow\cf4 \strokec4 ());\cb1 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 eventRange\cf4 \strokec4  = \cf5 \strokec5 clientSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 "F2:F"\cf4 \strokec4  + \cf5 \strokec5 clientSheet\cf4 \strokec4 .\cf5 \strokec5 getLastRow\cf4 \strokec4 ());\cb1 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 urlRange\cf4 \strokec4  = \cf5 \strokec5 clientSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 "K2:K"\cf4 \strokec4  + \cf5 \strokec5 clientSheet\cf4 \strokec4 .\cf5 \strokec5 getLastRow\cf4 \strokec4 ());\cb1 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 dateRange\cf4 \strokec4  = \cf5 \strokec5 clientSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 "L2:L"\cf4 \strokec4  + \cf5 \strokec5 clientSheet\cf4 \strokec4 .\cf5 \strokec5 getLastRow\cf4 \strokec4 ());\cb1 \
+\
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 cityValues\cf4 \strokec4  = \cf5 \strokec5 cityRange\cf4 \strokec4 .\cf5 \strokec5 getValues\cf4 \strokec4 ();\cb1 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 eventValues\cf4 \strokec4  = \cf5 \strokec5 eventRange\cf4 \strokec4 .\cf5 \strokec5 getValues\cf4 \strokec4 ();\cb1 \
+\
+\cb3         \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 k\cf4 \strokec4  = \cf9 \strokec9 0\cf4 \strokec4 ; \cf5 \strokec5 k\cf4 \strokec4  < \cf5 \strokec5 cityValues\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ; \cf5 \strokec5 k\cf4 \strokec4 ++) \{\cb1 \
+\cb3           \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 cityValues\cf4 \strokec4 [\cf5 \strokec5 k\cf4 \strokec4 ][\cf9 \strokec9 0\cf4 \strokec4 ] === \cf5 \strokec5 cityName\cf4 \strokec4  && \cf5 \strokec5 eventValues\cf4 \strokec4 [\cf5 \strokec5 k\cf4 \strokec4 ][\cf9 \strokec9 0\cf4 \strokec4 ] === \cf8 \strokec8 ""\cf4 \strokec4 ) \{\cb1 \
+\cb3             \cf5 \strokec5 clientSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf5 \strokec5 k\cf4 \strokec4  + \cf9 \strokec9 2\cf4 \strokec4 , \cf5 \strokec5 eventRange\cf4 \strokec4 .\cf5 \strokec5 getColumn\cf4 \strokec4 ()).\cf5 \strokec5 setValue\cf4 \strokec4 (\cf5 \strokec5 eventName\cf4 \strokec4 );\cb1 \
+\
+\cb3             \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 url\cf4 \strokec4  !== \cf8 \strokec8 ""\cf4 \strokec4 ) \{\cb1 \
+\cb3               \cf5 \strokec5 clientSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf5 \strokec5 k\cf4 \strokec4  + \cf9 \strokec9 2\cf4 \strokec4 , \cf5 \strokec5 urlRange\cf4 \strokec4 .\cf5 \strokec5 getColumn\cf4 \strokec4 ()).\cf5 \strokec5 setValue\cf4 \strokec4 (\cf5 \strokec5 url\cf4 \strokec4 );\cb1 \
+\cb3             \}\cb1 \
+\
+\cb3             \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 eventDate\cf4 \strokec4  !== \cf8 \strokec8 ""\cf4 \strokec4 ) \{\cb1 \
+\cb3               \cf5 \strokec5 clientSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf5 \strokec5 k\cf4 \strokec4  + \cf9 \strokec9 2\cf4 \strokec4 , \cf5 \strokec5 dateRange\cf4 \strokec4 .\cf5 \strokec5 getColumn\cf4 \strokec4 ()).\cf5 \strokec5 setValue\cf4 \strokec4 (\cf5 \strokec5 eventDate\cf4 \strokec4 );\cb1 \
+\cb3             \}\cb1 \
+\cb3           \}\cb1 \
+\cb3         \}\cb1 \
+\cb3       \}\cb1 \
+\cb3     \}\cb1 \
+\cb3   \}\cb1 \
+\cb3 \}\cb1 \
+\
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf7 \cb3 \strokec7 //to communicate with open ai (through "=gpt(XXX)")\cf4 \cb1 \strokec4 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 var\cf4 \strokec4  \cf6 \strokec6 API_key\cf4 \strokec4  = \cf8 \strokec8 \'93APIKEY\'93\cf4 \strokec4 ;\cb1 \
+\cf2 \cb3 \strokec2 var\cf4 \strokec4  \cf6 \strokec6 Model_ID\cf4 \strokec4  = \cf8 \strokec8 "text-davinci-002"\cf4 \strokec4 ;\cb1 \
+\cf2 \cb3 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 maxTokens\cf4 \strokec4  = \cf9 \strokec9 64\cf4 \strokec4 ;\cb1 \
+\cf2 \cb3 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 temperature\cf4 \strokec4  = \cf9 \strokec9 0.5\cf4 \strokec4 ;\cb1 \
+\
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf6 \strokec6 GPT\cf4 \strokec4 (\cf5 \strokec5 prompt\cf4 \strokec4 ) \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 payload\cf4 \strokec4  = \{\cb1 \
+\cb3     \cf8 \strokec8 'model'\cf4 \strokec4 : \cf6 \strokec6 Model_ID\cf4 \strokec4 ,\cb1 \
+\cb3     \cf8 \strokec8 'prompt'\cf4 \strokec4 : \cf5 \strokec5 prompt\cf4 \strokec4 ,\cb1 \
+\cb3     \cf8 \strokec8 'temperature'\cf4 \strokec4 : \cf5 \strokec5 temperature\cf4 \strokec4 ,\cb1 \
+\cb3     \cf8 \strokec8 'max_tokens'\cf4 \strokec4 : \cf5 \strokec5 maxTokens\cf4 \strokec4 ,\cb1 \
+\cb3   \};\cb1 \
+\
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 options\cf4 \strokec4  = \{\cb1 \
+\cb3     \cf8 \strokec8 'method'\cf4 \strokec4 : \cf8 \strokec8 'post'\cf4 \strokec4 ,\cb1 \
+\cb3     \cf8 \strokec8 'contentType'\cf4 \strokec4 : \cf8 \strokec8 'application/json'\cf4 \strokec4 ,\cb1 \
+\cb3     \cf8 \strokec8 'headers'\cf4 \strokec4 : \{\cb1 \
+\cb3       \cf8 \strokec8 'Authorization'\cf4 \strokec4 : \cf8 \strokec8 'Bearer '\cf4 \strokec4  + \cf6 \strokec6 API_key\cf4 \strokec4 ,\cb1 \
+\cb3     \},\cb1 \
+\cb3     \cf8 \strokec8 'payload'\cf4 \strokec4 : \cf6 \strokec6 JSON\cf4 \strokec4 .\cf5 \strokec5 stringify\cf4 \strokec4 (\cf5 \strokec5 payload\cf4 \strokec4 ),\cb1 \
+\cb3   \};\cb1 \
+\
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 response\cf4 \strokec4  = \cf6 \strokec6 UrlFetchApp\cf4 \strokec4 .\cf5 \strokec5 fetch\cf4 \strokec4 (\cf8 \strokec8 'https://api.openai.com/v1/completions'\cf4 \strokec4 , \cf5 \strokec5 options\cf4 \strokec4 );\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 responseData\cf4 \strokec4  = \cf6 \strokec6 JSON\cf4 \strokec4 .\cf5 \strokec5 parse\cf4 \strokec4 (\cf5 \strokec5 response\cf4 \strokec4 .\cf5 \strokec5 getContentText\cf4 \strokec4 ());\cb1 \
+\cb3   \cf2 \strokec2 return\cf4 \strokec4  \cf5 \strokec5 responseData\cf4 \strokec4 .\cf5 \strokec5 choices\cf4 \strokec4 [\cf9 \strokec9 0\cf4 \strokec4 ].\cf5 \strokec5 text\cf4 \strokec4 .\cf5 \strokec5 trim\cf4 \strokec4 ();\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 createCustomSocialApprovalDoc\cf4 \strokec4 () \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 spreadsheet\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getActiveSpreadsheet\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 sheet\cf4 \strokec4  = \cf5 \strokec5 spreadsheet\cf4 \strokec4 .\cf5 \strokec5 getActiveSheet\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 dataRange\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getDataRange\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 data\cf4 \strokec4  = \cf5 \strokec5 dataRange\cf4 \strokec4 .\cf5 \strokec5 getValues\cf4 \strokec4 ();\cb1 \
+\
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 currentDate\cf4 \strokec4  = \cf2 \strokec2 new\cf4 \strokec4  \cf6 \strokec6 Date\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 currentMonth\cf4 \strokec4  = \cf5 \strokec5 currentDate\cf4 \strokec4 .\cf5 \strokec5 getMonth\cf4 \strokec4 (); \cf7 \strokec7 // Get the current month (0-11)\cf4 \cb1 \strokec4 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 nextMonth\cf4 \strokec4  = (\cf5 \strokec5 currentMonth\cf4 \strokec4  + \cf9 \strokec9 1\cf4 \strokec4 ) % \cf9 \strokec9 12\cf4 \strokec4 ; \cf7 \strokec7 // Calculate the next month\cf4 \cb1 \strokec4 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 year\cf4 \strokec4  = \cf5 \strokec5 currentDate\cf4 \strokec4 .\cf5 \strokec5 getFullYear\cf4 \strokec4 (); \cf7 \strokec7 // Get the current year\cf4 \cb1 \strokec4 \
+\
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 monthNames\cf4 \strokec4  = [\cb1 \
+\cb3     \cf8 \strokec8 "January"\cf4 \strokec4 , \cf8 \strokec8 "February"\cf4 \strokec4 , \cf8 \strokec8 "March"\cf4 \strokec4 , \cf8 \strokec8 "April"\cf4 \strokec4 , \cf8 \strokec8 "May"\cf4 \strokec4 , \cf8 \strokec8 "June"\cf4 \strokec4 ,\cb1 \
+\cb3     \cf8 \strokec8 "July"\cf4 \strokec4 , \cf8 \strokec8 "August"\cf4 \strokec4 , \cf8 \strokec8 "September"\cf4 \strokec4 , \cf8 \strokec8 "October"\cf4 \strokec4 , \cf8 \strokec8 "November"\cf4 \strokec4 , \cf8 \strokec8 "December"\cf4 \cb1 \strokec4 \
+\cb3   ];\cb1 \
+\
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 monthLabel\cf4 \strokec4  = \cf5 \strokec5 monthNames\cf4 \strokec4 [\cf5 \strokec5 nextMonth\cf4 \strokec4 ] + \cf8 \strokec8 " "\cf4 \strokec4  + \cf5 \strokec5 year\cf4 \strokec4 ;\cb1 \
+\
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 doc\cf4 \strokec4  = \cf6 \strokec6 DocumentApp\cf4 \strokec4 .\cf5 \strokec5 create\cf4 \strokec4 (\cf8 \strokec8 "Custom Social Posts - "\cf4 \strokec4  + \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getName\cf4 \strokec4 () + \cf8 \strokec8 " "\cf4 \strokec4  + \cf5 \strokec5 monthLabel\cf4 \strokec4 );\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 body\cf4 \strokec4  = \cf5 \strokec5 doc\cf4 \strokec4 .\cf5 \strokec5 getBody\cf4 \strokec4 ();\cb1 \
+\
+\cb3   \cf5 \strokec5 body\cf4 \strokec4 .\cf5 \strokec5 appendParagraph\cf4 \strokec4 (\cf8 \strokec8 "Custom Content - "\cf4 \strokec4  + \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getName\cf4 \strokec4 ().\cf5 \strokec5 split\cf4 \strokec4 (\cf8 \strokec8 " "\cf4 \strokec4 )[\cf9 \strokec9 0\cf4 \strokec4 ] + \cf8 \strokec8 " "\cf4 \strokec4  + \cf5 \strokec5 monthLabel\cf4 \strokec4 ).\cf5 \strokec5 setHeading\cf4 \strokec4 (\cf6 \strokec6 DocumentApp\cf4 \strokec4 .\cf6 \strokec6 ParagraphHeading\cf4 \strokec4 .\cf6 \strokec6 HEADING3\cf4 \strokec4 );\cb1 \
+\
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 currentProperty\cf4 \strokec4  = \cf8 \strokec8 ""\cf4 \strokec4 ;\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 docLink\cf4 \strokec4  = \cf5 \strokec5 doc\cf4 \strokec4 .\cf5 \strokec5 getUrl\cf4 \strokec4 ();\cb1 \
+\
+\cb3   \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 i\cf4 \strokec4  = \cf9 \strokec9 1\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4  < \cf5 \strokec5 data\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4 ++) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 property\cf4 \strokec4  = \cf5 \strokec5 data\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ][\cf9 \strokec9 0\cf4 \strokec4 ];\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 topic\cf4 \strokec4  = \cf5 \strokec5 data\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ][\cf9 \strokec9 5\cf4 \strokec4 ];\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 caption\cf4 \strokec4  = \cf5 \strokec5 data\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ][\cf9 \strokec9 9\cf4 \strokec4 ];\cb1 \
+\
+\cb3     \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 property\cf4 \strokec4  !== \cf8 \strokec8 ""\cf4 \strokec4 ) \{\cb1 \
+\cb3       \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 property\cf4 \strokec4  !== \cf5 \strokec5 currentProperty\cf4 \strokec4 ) \{\cb1 \
+\cb3         \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 i\cf4 \strokec4  > \cf9 \strokec9 1\cf4 \strokec4 ) \{\cb1 \
+\cb3           \cf5 \strokec5 body\cf4 \strokec4 .\cf5 \strokec5 appendParagraph\cf4 \strokec4 (\cf8 \strokec8 ""\cf4 \strokec4 ); \cf7 \strokec7 // Add one paragraph of space\cf4 \cb1 \strokec4 \
+\cb3           \cf5 \strokec5 body\cf4 \strokec4 .\cf5 \strokec5 appendParagraph\cf4 \strokec4 (\cf8 \strokec8 ""\cf4 \strokec4 ); \cf7 \strokec7 // Add another paragraph of space\cf4 \cb1 \strokec4 \
+\cb3           \cf5 \strokec5 body\cf4 \strokec4 .\cf5 \strokec5 appendParagraph\cf4 \strokec4 (\cf8 \strokec8 ""\cf4 \strokec4 ); \cf7 \strokec7 // Add a third paragraph of space\cf4 \cb1 \strokec4 \
+\cb3         \}\cb1 \
+\cb3         \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 currentProperty\cf4 \strokec4  !== \cf8 \strokec8 ""\cf4 \strokec4 ) \{\cb1 \
+\cb3           \cf5 \strokec5 body\cf4 \strokec4 .\cf5 \strokec5 appendHorizontalRule\cf4 \strokec4 (); \cf7 \strokec7 // Add horizontal line\cf4 \cb1 \strokec4 \
+\cb3         \}\cb1 \
+\cb3         \cf5 \strokec5 body\cf4 \strokec4 .\cf5 \strokec5 appendParagraph\cf4 \strokec4 (\cf5 \strokec5 property\cf4 \strokec4 ).\cf5 \strokec5 setHeading\cf4 \strokec4 (\cf6 \strokec6 DocumentApp\cf4 \strokec4 .\cf6 \strokec6 ParagraphHeading\cf4 \strokec4 .\cf6 \strokec6 HEADING4\cf4 \strokec4 );\cb1 \
+\cb3         \cf5 \strokec5 currentProperty\cf4 \strokec4  = \cf5 \strokec5 property\cf4 \strokec4 ;\cb1 \
+\cb3       \}\cb1 \
+\
+\cb3       \cf5 \strokec5 body\cf4 \strokec4 .\cf5 \strokec5 appendParagraph\cf4 \strokec4 (\cf5 \strokec5 topic\cf4 \strokec4 ).\cf5 \strokec5 setHeading\cf4 \strokec4 (\cf6 \strokec6 DocumentApp\cf4 \strokec4 .\cf6 \strokec6 ParagraphHeading\cf4 \strokec4 .\cf6 \strokec6 HEADING5\cf4 \strokec4 );\cb1 \
+\cb3       \cf5 \strokec5 body\cf4 \strokec4 .\cf5 \strokec5 appendParagraph\cf4 \strokec4 (\cf5 \strokec5 caption\cf4 \strokec4 ).\cf5 \strokec5 setHeading\cf4 \strokec4 (\cf6 \strokec6 DocumentApp\cf4 \strokec4 .\cf6 \strokec6 ParagraphHeading\cf4 \strokec4 .\cf6 \strokec6 NORMAL\cf4 \strokec4 );\cb1 \
+\cb3     \}\cb1 \
+\cb3     \cb1 \
+\cb3     \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 i\cf4 \strokec4  > \cf9 \strokec9 1\cf4 \strokec4 ) \{\cb1 \
+\cb3       \cf5 \strokec5 body\cf4 \strokec4 .\cf5 \strokec5 appendParagraph\cf4 \strokec4 (\cf8 \strokec8 ""\cf4 \strokec4 ); \cf7 \strokec7 // Add one paragraph of space\cf4 \cb1 \strokec4 \
+\cb3       \cf5 \strokec5 body\cf4 \strokec4 .\cf5 \strokec5 appendParagraph\cf4 \strokec4 (\cf8 \strokec8 ""\cf4 \strokec4 ); \cf7 \strokec7 // Add another paragraph of space\cf4 \cb1 \strokec4 \
+\cb3     \}\cb1 \
+\
+\cb3     \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf5 \strokec5 i\cf4 \strokec4  + \cf9 \strokec9 1\cf4 \strokec4 , \cf9 \strokec9 14\cf4 \strokec4 ).\cf5 \strokec5 setValue\cf4 \strokec4 (\cf5 \strokec5 docLink\cf4 \strokec4 );\cb1 \
+\cb3   \}\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 countProperties\cf4 \strokec4 () \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 spreadsheet\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getActiveSpreadsheet\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 sheets\cf4 \strokec4  = \cf5 \strokec5 spreadsheet\cf4 \strokec4 .\cf5 \strokec5 getSheets\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 visibleSheets\cf4 \strokec4  = \cf5 \strokec5 sheets\cf4 \strokec4 .\cf5 \strokec5 filter\cf4 \strokec4 (\cf2 \strokec2 function\cf4 \strokec4 (\cf5 \strokec5 sheet\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf2 \strokec2 return\cf4 \strokec4  \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getName\cf4 \strokec4 () !== \cf8 \strokec8 '4 Post Survey'\cf4 \strokec4  && \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getName\cf4 \strokec4 () !== \cf8 \strokec8 'City Master'\cf4 \strokec4  && \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getName\cf4 \strokec4 () !== \cf8 \strokec8 'Klingbeil Survey'\cf4 \strokec4  && !\cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 isSheetHidden\cf4 \strokec4 ();\cb1 \
+\cb3   \});\cb1 \
+\
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 propertyCount\cf4 \strokec4  = \cf9 \strokec9 0\cf4 \strokec4 ;\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 uniquePropertyNames\cf4 \strokec4  = [];\cb1 \
+\cb3   \cb1 \
+\cb3   \cf5 \strokec5 visibleSheets\cf4 \strokec4 .\cf5 \strokec5 forEach\cf4 \strokec4 (\cf2 \strokec2 function\cf4 \strokec4 (\cf5 \strokec5 sheet\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 dataRange\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getDataRange\cf4 \strokec4 ();\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 values\cf4 \strokec4  = \cf5 \strokec5 dataRange\cf4 \strokec4 .\cf5 \strokec5 getValues\cf4 \strokec4 ();\cb1 \
+\cb3     \cb1 \
+\cb3     \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 i\cf4 \strokec4  = \cf9 \strokec9 1\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4  < \cf5 \strokec5 values\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4 ++) \{ \cf7 \strokec7 // Exclude header row\cf4 \cb1 \strokec4 \
+\cb3       \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 propertyName\cf4 \strokec4  = \cf5 \strokec5 values\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ][\cf9 \strokec9 0\cf4 \strokec4 ]; \cf7 \strokec7 // Assuming property name is in column A\cf4 \cb1 \strokec4 \
+\cb3       \cb1 \
+\cb3       \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 propertyName\cf4 \strokec4  && !\cf5 \strokec5 uniquePropertyNames\cf4 \strokec4 .\cf5 \strokec5 includes\cf4 \strokec4 (\cf5 \strokec5 propertyName\cf4 \strokec4 )) \{\cb1 \
+\cb3         \cf5 \strokec5 uniquePropertyNames\cf4 \strokec4 .\cf5 \strokec5 push\cf4 \strokec4 (\cf5 \strokec5 propertyName\cf4 \strokec4 );\cb1 \
+\cb3       \}\cb1 \
+\cb3       \cb1 \
+\cb3       \cf5 \strokec5 propertyCount\cf4 \strokec4 ++;\cb1 \
+\cb3     \}\cb1 \
+\cb3   \});\cb1 \
+\
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 ui\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getUi\cf4 \strokec4 ();\cb1 \
+\cb3   \cf5 \strokec5 ui\cf4 \strokec4 .\cf5 \strokec5 alert\cf4 \strokec4 (\cf8 \strokec8 'Property Count'\cf4 \strokec4 , \cf8 \strokec8 'Total Number of Social Posts: '\cf4 \strokec4  + \cf5 \strokec5 propertyCount\cf4 \strokec4  + \cf8 \strokec8 '\\nNumber of Unique Property Names: '\cf4 \strokec4  + \cf5 \strokec5 uniquePropertyNames\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 , \cf5 \strokec5 ui\cf4 \strokec4 .\cf6 \strokec6 ButtonSet\cf4 \strokec4 .\cf6 \strokec6 OK\cf4 \strokec4 );\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 createEmailList\cf4 \strokec4 () \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 spreadsheet\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getActiveSpreadsheet\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 customContactsSheet\cf4 \strokec4  = \cf5 \strokec5 spreadsheet\cf4 \strokec4 .\cf5 \strokec5 getSheetByName\cf4 \strokec4 (\cf8 \strokec8 'Custom Content Contacts'\cf4 \strokec4 );\cb1 \
+\cb3   \cb1 \
+\cb3   \cf7 \strokec7 // Check if the 'Custom Content Contacts' sheet already exists\cf4 \cb1 \strokec4 \
+\cb3   \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 customContactsSheet\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 ui\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getUi\cf4 \strokec4 ();\cb1 \
+\cb3     \cf5 \strokec5 ui\cf4 \strokec4 .\cf5 \strokec5 alert\cf4 \strokec4 (\cf8 \strokec8 'Sheet Already Exists'\cf4 \strokec4 , \cf8 \strokec8 'The "Custom Content Contacts" sheet already exists. Please delete or rename it before running this code.'\cf4 \strokec4 , \cf5 \strokec5 ui\cf4 \strokec4 .\cf6 \strokec6 ButtonSet\cf4 \strokec4 .\cf6 \strokec6 OK\cf4 \strokec4 );\cb1 \
+\cb3     \cf2 \strokec2 return\cf4 \strokec4 ;\cb1 \
+\cb3   \}\cb1 \
+\
+\cb3   \cf7 \strokec7 // Create a new sheet for the custom contacts\cf4 \cb1 \strokec4 \
+\cb3   \cf5 \strokec5 customContactsSheet\cf4 \strokec4  = \cf5 \strokec5 spreadsheet\cf4 \strokec4 .\cf5 \strokec5 insertSheet\cf4 \strokec4 (\cf8 \strokec8 'Custom Content Contacts'\cf4 \strokec4 );\cb1 \
+\cb3   \cb1 \
+\cb3   \cf7 \strokec7 // Set the headers in row 1\cf4 \cb1 \strokec4 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 headers\cf4 \strokec4  = [\cf8 \strokec8 'Client'\cf4 \strokec4 , \cf8 \strokec8 'Property'\cf4 \strokec4 , \cf8 \strokec8 'Name'\cf4 \strokec4 , \cf8 \strokec8 'Email'\cf4 \strokec4 , \cf8 \strokec8 'Date Start'\cf4 \strokec4 , \cf8 \strokec8 'Survey'\cf4 \strokec4 , \cf8 \strokec8 'Approval (Y/N)'\cf4 \strokec4 , \cf8 \strokec8 'Last Email Date'\cf4 \strokec4 ];\cb1 \
+\cb3   \cf5 \strokec5 customContactsSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 'A1:H1'\cf4 \strokec4 ).\cf5 \strokec5 setValues\cf4 \strokec4 ([\cf5 \strokec5 headers\cf4 \strokec4 ]);\cb1 \
+\
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 sheets\cf4 \strokec4  = \cf5 \strokec5 spreadsheet\cf4 \strokec4 .\cf5 \strokec5 getSheets\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 visibleSheets\cf4 \strokec4  = \cf5 \strokec5 sheets\cf4 \strokec4 .\cf5 \strokec5 filter\cf4 \strokec4 (\cf2 \strokec2 function\cf4 \strokec4 (\cf5 \strokec5 sheet\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 sheetName\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getName\cf4 \strokec4 ();\cb1 \
+\cb3     \cf2 \strokec2 return\cf4 \strokec4  \cf5 \strokec5 sheetName\cf4 \strokec4  !== \cf8 \strokec8 '4 Post Survey'\cf4 \strokec4  && \cf5 \strokec5 sheetName\cf4 \strokec4  !== \cf8 \strokec8 '8 Post Survey'\cf4 \strokec4  && \cf5 \strokec5 sheetName\cf4 \strokec4  !== \cf8 \strokec8 'City Master'\cf4 \strokec4  && \cf5 \strokec5 sheetName\cf4 \strokec4  !== \cf8 \strokec8 'Klingbeil Survey'\cf4 \strokec4  && !\cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 isSheetHidden\cf4 \strokec4 ();\cb1 \
+\cb3   \});\cb1 \
+\
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 data\cf4 \strokec4  = [];\cb1 \
+\cb3   \cb1 \
+\cb3   \cf5 \strokec5 visibleSheets\cf4 \strokec4 .\cf5 \strokec5 forEach\cf4 \strokec4 (\cf2 \strokec2 function\cf4 \strokec4 (\cf5 \strokec5 sheet\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 sheetName\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getName\cf4 \strokec4 ();\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 clientName\cf4 \strokec4  = \cf5 \strokec5 sheetName\cf4 \strokec4 ;\cb1 \
+\cb3     \cb1 \
+\cb3     \cf7 \strokec7 // Extract the client name from the sheet name (assuming it is the same as the sheet name)\cf4 \cb1 \strokec4 \
+\cb3     \cf7 \strokec7 // Modify this extraction logic if the client name is stored in a different format\cf4 \cb1 \strokec4 \
+\cb3     \cf7 \strokec7 // For example, if the sheet name is in the format "Client - Sheet Name", you can use:\cf4 \cb1 \strokec4 \
+\cb3     \cf7 \strokec7 // var clientName = sheetName.split(' - ')[0];\cf4 \cb1 \strokec4 \
+\cb3     \cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 dataRange\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getDataRange\cf4 \strokec4 ();\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 values\cf4 \strokec4  = \cf5 \strokec5 dataRange\cf4 \strokec4 .\cf5 \strokec5 getValues\cf4 \strokec4 ();\cb1 \
+\cb3     \cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 uniqueProperties\cf4 \strokec4  = \cf2 \strokec2 new\cf4 \strokec4  \cf6 \strokec6 Set\cf4 \strokec4 ();\cb1 \
+\cb3     \cb1 \
+\cb3     \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 i\cf4 \strokec4  = \cf9 \strokec9 1\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4  < \cf5 \strokec5 values\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4 ++) \{ \cf7 \strokec7 // Ignore the first row (headers)\cf4 \cb1 \strokec4 \
+\cb3       \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 row\cf4 \strokec4  = \cf5 \strokec5 values\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ];\cb1 \
+\cb3       \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 property\cf4 \strokec4  = \cf5 \strokec5 row\cf4 \strokec4 [\cf9 \strokec9 0\cf4 \strokec4 ]; \cf7 \strokec7 // Assuming property name is in column A\cf4 \cb1 \strokec4 \
+\cb3       \cb1 \
+\cb3       \cf2 \strokec2 if\cf4 \strokec4  (!\cf5 \strokec5 property\cf4 \strokec4 ) \{\cb1 \
+\cb3         \cf2 \strokec2 break\cf4 \strokec4 ; \cf7 \strokec7 // Stop searching if property is blank\cf4 \cb1 \strokec4 \
+\cb3       \}\cb1 \
+\cb3       \cb1 \
+\cb3       \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 contactName\cf4 \strokec4  = \cf5 \strokec5 row\cf4 \strokec4 [\cf9 \strokec9 2\cf4 \strokec4 ]; \cf7 \strokec7 // Assuming contact name is in column C\cf4 \cb1 \strokec4 \
+\cb3       \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 email\cf4 \strokec4  = \cf5 \strokec5 row\cf4 \strokec4 [\cf9 \strokec9 2\cf4 \strokec4 ]; \cf7 \strokec7 // Assuming email is in column C\cf4 \cb1 \strokec4 \
+\cb3       \cb1 \
+\cb3       \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 contactName\cf4 \strokec4 ) \{\cb1 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 dateStart\cf4 \strokec4  = \cf8 \strokec8 ''\cf4 \strokec4 ; \cf7 \strokec7 // Default empty value for Date Start\cf4 \cb1 \strokec4 \
+\cb3       \cb1 \
+\cb3         \cf7 \strokec7 // Extract month and year from the spreadsheet creation date if available\cf4 \cb1 \strokec4 \
+\cb3         \cf7 \strokec7 // Modify this extraction logic if the creation date is stored in a different format or location\cf4 \cb1 \strokec4 \
+\cb3         \cf7 \strokec7 // Note: If extraction is not possible, the code will leave dateStart as an empty string as per your request\cf4 \cb1 \strokec4 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 creationDate\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf8 \strokec8 'A1'\cf4 \strokec4 ).\cf5 \strokec5 getValue\cf4 \strokec4 (); \cf7 \strokec7 // Assuming the creation date is stored in cell A1\cf4 \cb1 \strokec4 \
+\cb3         \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 creationDate\cf4 \strokec4  && \cf5 \strokec5 creationDate\cf4 \strokec4  \cf2 \strokec2 instanceof\cf4 \strokec4  \cf6 \strokec6 Date\cf4 \strokec4 ) \{\cb1 \
+\cb3           \cf5 \strokec5 dateStart\cf4 \strokec4  = \cf6 \strokec6 Utilities\cf4 \strokec4 .\cf5 \strokec5 formatDate\cf4 \strokec4 (\cf5 \strokec5 creationDate\cf4 \strokec4 , \cf5 \strokec5 spreadsheet\cf4 \strokec4 .\cf5 \strokec5 getSpreadsheetTimeZone\cf4 \strokec4 (), \cf8 \strokec8 'MMM/yyyy'\cf4 \strokec4 );\cb1 \
+\cb3         \}\cb1 \
+\cb3         \cb1 \
+\cb3         \cf2 \strokec2 if\cf4 \strokec4  (!\cf5 \strokec5 uniqueProperties\cf4 \strokec4 .\cf5 \strokec5 has\cf4 \strokec4 (\cf5 \strokec5 property\cf4 \strokec4 )) \{\cb1 \
+\cb3           \cf5 \strokec5 data\cf4 \strokec4 .\cf5 \strokec5 push\cf4 \strokec4 ([\cf5 \strokec5 clientName\cf4 \strokec4 , \cf5 \strokec5 property\cf4 \strokec4 , \cf5 \strokec5 contactName\cf4 \strokec4 , \cf5 \strokec5 email\cf4 \strokec4 , \cf5 \strokec5 dateStart\cf4 \strokec4 , \cf8 \strokec8 ''\cf4 \strokec4 , \cf8 \strokec8 ''\cf4 \strokec4 , \cf8 \strokec8 ''\cf4 \strokec4 ]);\cb1 \
+\cb3           \cf5 \strokec5 uniqueProperties\cf4 \strokec4 .\cf5 \strokec5 add\cf4 \strokec4 (\cf5 \strokec5 property\cf4 \strokec4 );\cb1 \
+\cb3         \}\cb1 \
+\cb3       \}\cb1 \
+\cb3     \}\cb1 \
+\cb3   \});\cb1 \
+\
+\cb3   \cf7 \strokec7 // Write the collected data to the 'Custom Content Contacts' sheet\cf4 \cb1 \strokec4 \
+\cb3   \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 data\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4  > \cf9 \strokec9 0\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 lastRow\cf4 \strokec4  = \cf5 \strokec5 customContactsSheet\cf4 \strokec4 .\cf5 \strokec5 getLastRow\cf4 \strokec4 ();\cb1 \
+\cb3     \cf5 \strokec5 customContactsSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf5 \strokec5 lastRow\cf4 \strokec4  + \cf9 \strokec9 1\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 , \cf5 \strokec5 data\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 , \cf5 \strokec5 headers\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ).\cf5 \strokec5 setValues\cf4 \strokec4 (\cf5 \strokec5 data\cf4 \strokec4 );\cb1 \
+\cb3   \}\cb1 \
+\
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 ui\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getUi\cf4 \strokec4 ();\cb1 \
+\cb3   \cf5 \strokec5 ui\cf4 \strokec4 .\cf5 \strokec5 alert\cf4 \strokec4 (\cf8 \strokec8 'Email List Created'\cf4 \strokec4 , \cf8 \strokec8 'The "Custom Content Contacts" sheet has been created successfully.'\cf4 \strokec4 , \cf5 \strokec5 ui\cf4 \strokec4 .\cf6 \strokec6 ButtonSet\cf4 \strokec4 .\cf6 \strokec6 OK\cf4 \strokec4 );\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 setUpContactEmailsSheet\cf4 \strokec4 () \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 ss\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getActiveSpreadsheet\cf4 \strokec4 ();\cb1 \
+\cb3   \cb1 \
+\cb3   \cf7 \strokec7 // Create the Contact Emails sheet if it doesn't exist\cf4 \cb1 \strokec4 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 sheet\cf4 \strokec4  = \cf5 \strokec5 ss\cf4 \strokec4 .\cf5 \strokec5 getSheetByName\cf4 \strokec4 (\cf8 \strokec8 'Contact Emails'\cf4 \strokec4 ) || \cf5 \strokec5 ss\cf4 \strokec4 .\cf5 \strokec5 insertSheet\cf4 \strokec4 (\cf8 \strokec8 'Contact Emails'\cf4 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 clear\cf4 \strokec4 ();\cb1 \
+\cb3   \cb1 \
+\cb3   \cf7 \strokec7 // Define headers\cf4 \cb1 \strokec4 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 headers\cf4 \strokec4  = [\cf8 \strokec8 'Client'\cf4 \strokec4 , \cf8 \strokec8 'Property'\cf4 \strokec4 , \cf8 \strokec8 'Name'\cf4 \strokec4 , \cf8 \strokec8 'Email'\cf4 \strokec4 , \cf8 \strokec8 'CC'\cf4 \strokec4 , \cf8 \strokec8 'Location'\cf4 \strokec4 , \cf8 \strokec8 'Contacted (Y/N)'\cf4 \strokec4 ];\cb1 \
+\cb3   \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf9 \strokec9 1\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 , \cf5 \strokec5 headers\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ).\cf5 \strokec5 setValues\cf4 \strokec4 ([\cf5 \strokec5 headers\cf4 \strokec4 ]).\cf5 \strokec5 setFontWeight\cf4 \strokec4 (\cf8 \strokec8 'bold'\cf4 \strokec4 );\cb1 \
+\cb3   \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 setFrozenRows\cf4 \strokec4 (\cf9 \strokec9 1\cf4 \strokec4 );\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 processSheets\cf4 \strokec4 () \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 ss\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getActiveSpreadsheet\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 allSheets\cf4 \strokec4  = \cf5 \strokec5 ss\cf4 \strokec4 .\cf5 \strokec5 getSheets\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 contactEmailsSheet\cf4 \strokec4  = \cf5 \strokec5 ss\cf4 \strokec4 .\cf5 \strokec5 getSheetByName\cf4 \strokec4 (\cf8 \strokec8 'Contact Emails'\cf4 \strokec4 );\cb1 \
+\cb3   \cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 excludedSheets\cf4 \strokec4  = [\cf8 \strokec8 '4 Post Survey'\cf4 \strokec4 , \cf8 \strokec8 '8 Post Survey'\cf4 \strokec4 , \cf8 \strokec8 'City Master'\cf4 \strokec4 , \cf8 \strokec8 'Klingbeil Survey'\cf4 \strokec4 ];\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 propertiesSet\cf4 \strokec4  = \cf2 \strokec2 new\cf4 \strokec4  \cf6 \strokec6 Set\cf4 \strokec4 ();\cb1 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 allData\cf4 \strokec4  = [];\cb1 \
+\cb3   \cb1 \
+\cb3   \cf5 \strokec5 allSheets\cf4 \strokec4 .\cf5 \strokec5 forEach\cf4 \strokec4 (\cf2 \strokec2 function\cf4 \strokec4 (\cf5 \strokec5 sheet\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 sheetName\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getName\cf4 \strokec4 ();\cb1 \
+\cb3     \cf2 \strokec2 if\cf4 \strokec4  (!\cf5 \strokec5 excludedSheets\cf4 \strokec4 .\cf5 \strokec5 includes\cf4 \strokec4 (\cf5 \strokec5 sheetName\cf4 \strokec4 )) \{\cb1 \
+\cb3       \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 data\cf4 \strokec4  = \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getDataRange\cf4 \strokec4 ().\cf5 \strokec5 getValues\cf4 \strokec4 ();\cb1 \
+\cb3       \cb1 \
+\cb3       \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 i\cf4 \strokec4  = \cf9 \strokec9 1\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4  < \cf5 \strokec5 data\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4 ++) \{ \cf7 \strokec7 // Start from 1 to skip headers\cf4 \cb1 \strokec4 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 property\cf4 \strokec4  = \cf5 \strokec5 data\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ][\cf9 \strokec9 0\cf4 \strokec4 ]; \cf7 \strokec7 // Column A\cf4 \cb1 \strokec4 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 location\cf4 \strokec4  = \cf5 \strokec5 data\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ][\cf9 \strokec9 1\cf4 \strokec4 ]; \cf7 \strokec7 // Column B\cf4 \cb1 \strokec4 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 name\cf4 \strokec4  = \cf5 \strokec5 data\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ][\cf9 \strokec9 2\cf4 \strokec4 ]; \cf7 \strokec7 // Column C\cf4 \cb1 \strokec4 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 email\cf4 \strokec4  = \cf5 \strokec5 data\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ][\cf9 \strokec9 2\cf4 \strokec4 ]; \cf7 \strokec7 // Column C\cf4 \cb1 \strokec4 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 cc\cf4 \strokec4  = \cf5 \strokec5 data\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ][\cf9 \strokec9 2\cf4 \strokec4 ]; \cf7 \strokec7 // Column C\cf4 \cb1 \strokec4 \
+\cb3         \cb1 \
+\cb3         \cf7 \strokec7 // Check if the property is not already processed\cf4 \cb1 \strokec4 \
+\cb3         \cf2 \strokec2 if\cf4 \strokec4  (!\cf5 \strokec5 propertiesSet\cf4 \strokec4 .\cf5 \strokec5 has\cf4 \strokec4 (\cf5 \strokec5 property\cf4 \strokec4 ) && \cf5 \strokec5 property\cf4 \strokec4 ) \{\cb1 \
+\cb3           \cf5 \strokec5 propertiesSet\cf4 \strokec4 .\cf5 \strokec5 add\cf4 \strokec4 (\cf5 \strokec5 property\cf4 \strokec4 );\cb1 \
+\cb3           \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 rowData\cf4 \strokec4  = [\cf5 \strokec5 sheetName\cf4 \strokec4 , \cf5 \strokec5 property\cf4 \strokec4 ];\cb1 \
+\cb3           \cb1 \
+\cb3           \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 isValidData\cf4 \strokec4 (\cf5 \strokec5 name\cf4 \strokec4 )) \cf5 \strokec5 rowData\cf4 \strokec4 .\cf5 \strokec5 push\cf4 \strokec4 (\cf5 \strokec5 name\cf4 \strokec4 );\cb1 \
+\cb3           \cf2 \strokec2 else\cf4 \strokec4  \cf5 \strokec5 rowData\cf4 \strokec4 .\cf5 \strokec5 push\cf4 \strokec4 (\cf8 \strokec8 ''\cf4 \strokec4 );\cb1 \
+\cb3           \cb1 \
+\cb3           \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 isValidData\cf4 \strokec4 (\cf5 \strokec5 email\cf4 \strokec4 )) \cf5 \strokec5 rowData\cf4 \strokec4 .\cf5 \strokec5 push\cf4 \strokec4 (\cf5 \strokec5 email\cf4 \strokec4 );\cb1 \
+\cb3           \cf2 \strokec2 else\cf4 \strokec4  \cf5 \strokec5 rowData\cf4 \strokec4 .\cf5 \strokec5 push\cf4 \strokec4 (\cf8 \strokec8 ''\cf4 \strokec4 );\cb1 \
+\cb3           \cb1 \
+\cb3           \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 isValidData\cf4 \strokec4 (\cf5 \strokec5 cc\cf4 \strokec4 )) \cf5 \strokec5 rowData\cf4 \strokec4 .\cf5 \strokec5 push\cf4 \strokec4 (\cf5 \strokec5 cc\cf4 \strokec4 );\cb1 \
+\cb3           \cf2 \strokec2 else\cf4 \strokec4  \cf5 \strokec5 rowData\cf4 \strokec4 .\cf5 \strokec5 push\cf4 \strokec4 (\cf8 \strokec8 ''\cf4 \strokec4 );\cb1 \
+\cb3           \cb1 \
+\cb3           \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 location\cf4 \strokec4 ) \cf5 \strokec5 rowData\cf4 \strokec4 .\cf5 \strokec5 push\cf4 \strokec4 (\cf5 \strokec5 location\cf4 \strokec4 );\cb1 \
+\cb3           \cf2 \strokec2 else\cf4 \strokec4  \cf5 \strokec5 rowData\cf4 \strokec4 .\cf5 \strokec5 push\cf4 \strokec4 (\cf8 \strokec8 ''\cf4 \strokec4 );\cb1 \
+\cb3           \cb1 \
+\cb3           \cf5 \strokec5 rowData\cf4 \strokec4 .\cf5 \strokec5 push\cf4 \strokec4 (\cf8 \strokec8 ''\cf4 \strokec4 ); \cf7 \strokec7 // Checkbox will be handled separately\cf4 \cb1 \strokec4 \
+\cb3           \cf5 \strokec5 allData\cf4 \strokec4 .\cf5 \strokec5 push\cf4 \strokec4 (\cf5 \strokec5 rowData\cf4 \strokec4 );\cb1 \
+\cb3         \}\cb1 \
+\cb3       \}\cb1 \
+\cb3     \}\cb1 \
+\cb3   \});\cb1 \
+\cb3   \cb1 \
+\cb3   \cf7 \strokec7 // Append data to the 'Contact Emails' sheet\cf4 \cb1 \strokec4 \
+\cb3   \cf2 \strokec2 if\cf4 \strokec4  (\cf5 \strokec5 allData\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 range\cf4 \strokec4  = \cf5 \strokec5 contactEmailsSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf5 \strokec5 contactEmailsSheet\cf4 \strokec4 .\cf5 \strokec5 getLastRow\cf4 \strokec4 () + \cf9 \strokec9 1\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 , \cf5 \strokec5 allData\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 , \cf5 \strokec5 allData\cf4 \strokec4 [\cf9 \strokec9 0\cf4 \strokec4 ].\cf5 \strokec5 length\cf4 \strokec4 );\cb1 \
+\cb3     \cf5 \strokec5 range\cf4 \strokec4 .\cf5 \strokec5 setValues\cf4 \strokec4 (\cf5 \strokec5 allData\cf4 \strokec4 );\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cb1 \
+\cb3   \cf7 \strokec7 // Adding checkboxes to the 'Contacted (Y/N)' column\cf4 \cb1 \strokec4 \
+\cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 checkboxesRange\cf4 \strokec4  = \cf5 \strokec5 contactEmailsSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf9 \strokec9 2\cf4 \strokec4 , \cf9 \strokec9 7\cf4 \strokec4 , \cf5 \strokec5 allData\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 ); \cb1 \
+\cb3   \cf5 \strokec5 checkboxesRange\cf4 \strokec4 .\cf5 \strokec5 insertCheckboxes\cf4 \strokec4 ();\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 isValidData\cf4 \strokec4 (\cf5 \strokec5 data\cf4 \strokec4 ) \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 invalidData\cf4 \strokec4  = [\cf8 \strokec8 "Needs Approval?"\cf4 \strokec4 , \cf8 \strokec8 "FALSE"\cf4 \strokec4 , \cf8 \strokec8 "TRUE"\cf4 \strokec4 , \cf8 \strokec8 "CANVA"\cf4 \strokec4 , \cf8 \strokec8 "Canva Link"\cf4 \strokec4 ];\cb1 \
+\cb3   \cf2 \strokec2 return\cf4 \strokec4  !\cf5 \strokec5 invalidData\cf4 \strokec4 .\cf5 \strokec5 includes\cf4 \strokec4 (\cf5 \strokec5 data\cf4 \strokec4 ) && \cf5 \strokec5 data\cf4 \strokec4 ;\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 main\cf4 \strokec4 () \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf5 \strokec5 setUpContactEmailsSheet\cf4 \strokec4 ();\cb1 \
+\cb3   \cf5 \strokec5 processSheets\cf4 \strokec4 ();\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 assignTopics\cf4 \strokec4 () \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 try\cf4 \strokec4  \{\cb1 \
+\cb3     \cf7 \strokec7 // Function to check if a target range is empty in columns F, H, I, and J\cf4 \cb1 \strokec4 \
+\cb3     \cf2 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 targetRangeIsEmpty\cf4 \strokec4 (\cf5 \strokec5 targetRange\cf4 \strokec4 ) \{\cb1 \
+\cb3       \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 valuesToCheck\cf4 \strokec4  = \cf5 \strokec5 targetRange\cf4 \strokec4 .\cf5 \strokec5 getValues\cf4 \strokec4 ()[\cf9 \strokec9 0\cf4 \strokec4 ].\cf5 \strokec5 filter\cf4 \strokec4 ((\cf5 \strokec5 _\cf4 \strokec4 , \cf5 \strokec5 index\cf4 \strokec4 ) => [\cf9 \strokec9 0\cf4 \strokec4 , \cf9 \strokec9 2\cf4 \strokec4 , \cf9 \strokec9 3\cf4 \strokec4 , \cf9 \strokec9 4\cf4 \strokec4 ].\cf5 \strokec5 includes\cf4 \strokec4 (\cf5 \strokec5 index\cf4 \strokec4 ));\cb1 \
+\cb3       \cf2 \strokec2 return\cf4 \strokec4  \cf5 \strokec5 valuesToCheck\cf4 \strokec4 .\cf5 \strokec5 every\cf4 \strokec4 (\cf5 \strokec5 cell\cf4 \strokec4  => \cf5 \strokec5 cell\cf4 \strokec4  === \cf8 \strokec8 ""\cf4 \strokec4  || \cf5 \strokec5 cell\cf4 \strokec4 .\cf5 \strokec5 toString\cf4 \strokec4 ().\cf5 \strokec5 trim\cf4 \strokec4 () === \cf8 \strokec8 ""\cf4 \strokec4 );\cb1 \
+\cb3     \}\cb1 \
+\
+\cb3     \cf7 \strokec7 // Prompt the user to enter the Topics Spreadsheet URL\cf4 \cb1 \strokec4 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 topicsSpreadsheetUrl\cf4 \strokec4  = \cf6 \strokec6 Browser\cf4 \strokec4 .\cf5 \strokec5 inputBox\cf4 \strokec4 (\cf8 \strokec8 "Enter Topics Spreadsheet URL"\cf4 \strokec4 );\cb1 \
+\
+\cb3     \cf2 \strokec2 if\cf4 \strokec4  (!\cf5 \strokec5 topicsSpreadsheetUrl\cf4 \strokec4 ) \{\cb1 \
+\cb3       \cf7 \strokec7 // User pressed Cancel or entered an empty string\cf4 \cb1 \strokec4 \
+\cb3       \cf2 \strokec2 return\cf4 \strokec4 ;\cb1 \
+\cb3     \}\cb1 \
+\
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 topicsSpreadsheet\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 openByUrl\cf4 \strokec4 (\cf5 \strokec5 topicsSpreadsheetUrl\cf4 \strokec4 );\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 activeSheet\cf4 \strokec4  = \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getActiveSpreadsheet\cf4 \strokec4 ().\cf5 \strokec5 getActiveSheet\cf4 \strokec4 ();\cb1 \
+\
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 topicSheetNames\cf4 \strokec4  = \cf5 \strokec5 topicsSpreadsheet\cf4 \strokec4 .\cf5 \strokec5 getSheets\cf4 \strokec4 ().\cf5 \strokec5 map\cf4 \strokec4 (\cf5 \strokec5 sheet\cf4 \strokec4  => \cf5 \strokec5 sheet\cf4 \strokec4 .\cf5 \strokec5 getName\cf4 \strokec4 ());\cb1 \
+\cb3     \cf5 \strokec5 topicSheetNames\cf4 \strokec4  = \cf5 \strokec5 shuffleArray\cf4 \strokec4 (\cf5 \strokec5 topicSheetNames\cf4 \strokec4 );\cb1 \
+\
+\cb3     \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 i\cf4 \strokec4  = \cf9 \strokec9 2\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4  <= \cf5 \strokec5 activeSheet\cf4 \strokec4 .\cf5 \strokec5 getLastRow\cf4 \strokec4 (); \cf5 \strokec5 i\cf4 \strokec4 ++) \{\cb1 \
+\cb3       \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 clientName\cf4 \strokec4  = \cf5 \strokec5 activeSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf5 \strokec5 i\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 ).\cf5 \strokec5 getValue\cf4 \strokec4 ();\cb1 \
+\
+\cb3       \cf2 \strokec2 if\cf4 \strokec4  (!\cf5 \strokec5 clientName\cf4 \strokec4 ) \{\cb1 \
+\cb3         \cf6 \strokec6 Logger\cf4 \strokec4 .\cf5 \strokec5 log\cf4 \strokec4 (\cf8 \strokec8 'Skipping row '\cf4 \strokec4  + \cf5 \strokec5 i\cf4 \strokec4  + \cf8 \strokec8 ' due to empty client name.'\cf4 \strokec4 );\cb1 \
+\cb3         \cf2 \strokec2 continue\cf4 \strokec4 ;\cb1 \
+\cb3       \}\cb1 \
+\
+\cb3       \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 selectedTopics\cf4 \strokec4  = \cf5 \strokec5 topicSheetNames\cf4 \strokec4 .\cf5 \strokec5 splice\cf4 \strokec4 (\cf9 \strokec9 0\cf4 \strokec4 , \cf9 \strokec9 4\cf4 \strokec4 );\cb1 \
+\
+\cb3       \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 j\cf4 \strokec4  = \cf9 \strokec9 0\cf4 \strokec4 ; \cf5 \strokec5 j\cf4 \strokec4  < \cf5 \strokec5 selectedTopics\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4 ; \cf5 \strokec5 j\cf4 \strokec4 ++) \{\cb1 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 topicSheet\cf4 \strokec4  = \cf5 \strokec5 topicsSpreadsheet\cf4 \strokec4 .\cf5 \strokec5 getSheetByName\cf4 \strokec4 (\cf5 \strokec5 selectedTopics\cf4 \strokec4 [\cf5 \strokec5 j\cf4 \strokec4 ]);\cb1 \
+\
+\cb3         \cf2 \strokec2 if\cf4 \strokec4  (!\cf5 \strokec5 topicSheet\cf4 \strokec4 ) \{\cb1 \
+\cb3           \cf2 \strokec2 throw\cf4 \strokec4  \cf2 \strokec2 new\cf4 \strokec4  \cf6 \strokec6 Error\cf4 \strokec4 (\cf8 \strokec8 'Topic sheet not found in the Topics Spreadsheet.'\cf4 \strokec4 );\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 rowIndex\cf4 \strokec4  = \cf6 \strokec6 Math\cf4 \strokec4 .\cf5 \strokec5 floor\cf4 \strokec4 (\cf6 \strokec6 Math\cf4 \strokec4 .\cf5 \strokec5 random\cf4 \strokec4 () * (\cf5 \strokec5 topicSheet\cf4 \strokec4 .\cf5 \strokec5 getLastRow\cf4 \strokec4 () - \cf9 \strokec9 1\cf4 \strokec4 )) + \cf9 \strokec9 2\cf4 \strokec4 ;\cb1 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 topicData\cf4 \strokec4  = \cf5 \strokec5 topicSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf5 \strokec5 rowIndex\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 , \cf9 \strokec9 4\cf4 \strokec4 ).\cf5 \strokec5 getValues\cf4 \strokec4 ()[\cf9 \strokec9 0\cf4 \strokec4 ];\cb1 \
+\
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 targetRow\cf4 \strokec4  = \cf5 \strokec5 i\cf4 \strokec4 ;\cb1 \
+\cb3         \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 targetRange\cf4 \strokec4  = \cf5 \strokec5 activeSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf5 \strokec5 targetRow\cf4 \strokec4 , \cf9 \strokec9 6\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 , \cf9 \strokec9 4\cf4 \strokec4 );\cb1 \
+\
+\cb3         \cf6 \strokec6 Logger\cf4 \strokec4 .\cf5 \strokec5 log\cf4 \strokec4 (\cf8 \strokec8 'Row: '\cf4 \strokec4  + \cf5 \strokec5 targetRow\cf4 \strokec4  + \cf8 \strokec8 ', isTargetRangeEmpty: '\cf4 \strokec4  + \cf5 \strokec5 targetRangeIsEmpty\cf4 \strokec4 (\cf5 \strokec5 targetRange\cf4 \strokec4 ));\cb1 \
+\cb3         \cf6 \strokec6 Logger\cf4 \strokec4 .\cf5 \strokec5 log\cf4 \strokec4 (\cf8 \strokec8 'Column F, H, I, J values: '\cf4 \strokec4  + \cf5 \strokec5 targetRange\cf4 \strokec4 .\cf5 \strokec5 getValues\cf4 \strokec4 ()[\cf9 \strokec9 0\cf4 \strokec4 ].\cf5 \strokec5 map\cf4 \strokec4 (\cf5 \strokec5 cell\cf4 \strokec4  => \cf5 \strokec5 cell\cf4 \strokec4 .\cf5 \strokec5 toString\cf4 \strokec4 ().\cf5 \strokec5 trim\cf4 \strokec4 ()).\cf5 \strokec5 join\cf4 \strokec4 (\cf8 \strokec8 ', '\cf4 \strokec4 ));\cb1 \
+\cb3         \cf6 \strokec6 Logger\cf4 \strokec4 .\cf5 \strokec5 log\cf4 \strokec4 (\cf8 \strokec8 'Column A value: '\cf4 \strokec4  + \cf5 \strokec5 clientName\cf4 \strokec4 );\cb1 \
+\
+\cb3         \cf2 \strokec2 if\cf4 \strokec4  (!\cf5 \strokec5 targetRangeIsEmpty\cf4 \strokec4 (\cf5 \strokec5 targetRange\cf4 \strokec4 )) \{\cb1 \
+\cb3           \cf6 \strokec6 Logger\cf4 \strokec4 .\cf5 \strokec5 log\cf4 \strokec4 (\cf8 \strokec8 'Skipping row '\cf4 \strokec4  + \cf5 \strokec5 targetRow\cf4 \strokec4  + \cf8 \strokec8 ' due to existing data in columns F, H, I, or J.'\cf4 \strokec4 );\cb1 \
+\cb3           \cf2 \strokec2 continue\cf4 \strokec4 ;\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         \cf7 \strokec7 // Set values in columns F, H, I, and J\cf4 \cb1 \strokec4 \
+\cb3         \cf5 \strokec5 activeSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf5 \strokec5 targetRow\cf4 \strokec4 , \cf9 \strokec9 6\cf4 \strokec4 ).\cf5 \strokec5 setValue\cf4 \strokec4 (\cf5 \strokec5 selectedTopics\cf4 \strokec4 [\cf5 \strokec5 j\cf4 \strokec4 ]);\cb1 \
+\cb3         \cf5 \strokec5 activeSheet\cf4 \strokec4 .\cf5 \strokec5 getRange\cf4 \strokec4 (\cf5 \strokec5 targetRow\cf4 \strokec4 , \cf9 \strokec9 8\cf4 \strokec4 , \cf9 \strokec9 1\cf4 \strokec4 , \cf9 \strokec9 3\cf4 \strokec4 ).\cf5 \strokec5 setValues\cf4 \strokec4 ([\cf5 \strokec5 topicData\cf4 \strokec4 .\cf5 \strokec5 slice\cf4 \strokec4 (\cf9 \strokec9 1\cf4 \strokec4 )]); \cf7 \strokec7 // Set values in columns H, I, and J\cf4 \cb1 \strokec4 \
+\cb3       \}\cb1 \
+\cb3     \}\cb1 \
+\cb3   \} \cf2 \strokec2 catch\cf4 \strokec4  (\cf5 \strokec5 error\cf4 \strokec4 ) \{\cb1 \
+\cb3     \cf6 \strokec6 Logger\cf4 \strokec4 .\cf5 \strokec5 log\cf4 \strokec4 (\cf8 \strokec8 'Error: '\cf4 \strokec4  + \cf5 \strokec5 error\cf4 \strokec4 .\cf5 \strokec5 message\cf4 \strokec4  + \cf8 \strokec8 '\\nStack Trace: '\cf4 \strokec4  + \cf5 \strokec5 error\cf4 \strokec4 .\cf5 \strokec5 stack\cf4 \strokec4 );\cb1 \
+\cb3     \cf6 \strokec6 SpreadsheetApp\cf4 \strokec4 .\cf5 \strokec5 getUi\cf4 \strokec4 ().\cf5 \strokec5 alert\cf4 \strokec4 (\cf8 \strokec8 'Error: '\cf4 \strokec4  + \cf5 \strokec5 error\cf4 \strokec4 .\cf5 \strokec5 message\cf4 \strokec4 );\cb1 \
+\cb3   \}\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 targetRangeIsEmpty\cf4 \strokec4 (\cf5 \strokec5 targetRange\cf4 \strokec4 ) \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 valuesToCheck\cf4 \strokec4  = \cf5 \strokec5 targetRange\cf4 \strokec4 .\cf5 \strokec5 getValues\cf4 \strokec4 ()[\cf9 \strokec9 0\cf4 \strokec4 ].\cf5 \strokec5 filter\cf4 \strokec4 ((\cf5 \strokec5 _\cf4 \strokec4 , \cf5 \strokec5 index\cf4 \strokec4 ) => [\cf9 \strokec9 0\cf4 \strokec4 , \cf9 \strokec9 2\cf4 \strokec4 , \cf9 \strokec9 3\cf4 \strokec4 , \cf9 \strokec9 4\cf4 \strokec4 ].\cf5 \strokec5 includes\cf4 \strokec4 (\cf5 \strokec5 index\cf4 \strokec4 ));\cb1 \
+\cb3   \cf2 \strokec2 return\cf4 \strokec4  \cf5 \strokec5 valuesToCheck\cf4 \strokec4 .\cf5 \strokec5 every\cf4 \strokec4 (\cf5 \strokec5 cell\cf4 \strokec4  => \cf5 \strokec5 cell\cf4 \strokec4  === \cf8 \strokec8 ""\cf4 \strokec4  || \cf5 \strokec5 cell\cf4 \strokec4 .\cf5 \strokec5 toString\cf4 \strokec4 ().\cf5 \strokec5 trim\cf4 \strokec4 () === \cf8 \strokec8 ""\cf4 \strokec4 );\cb1 \
+\cb3 \}\cb1 \
+\
+\pard\pardeftab720\sl400\partightenfactor0
+\cf2 \cb3 \strokec2 function\cf4 \strokec4  \cf5 \strokec5 shuffleArray\cf4 \strokec4 (\cf5 \strokec5 array\cf4 \strokec4 ) \{\cb1 \
+\pard\pardeftab720\sl400\partightenfactor0
+\cf4 \cb3   \cf2 \strokec2 for\cf4 \strokec4  (\cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 i\cf4 \strokec4  = \cf5 \strokec5 array\cf4 \strokec4 .\cf5 \strokec5 length\cf4 \strokec4  - \cf9 \strokec9 1\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4  > \cf9 \strokec9 0\cf4 \strokec4 ; \cf5 \strokec5 i\cf4 \strokec4 --) \{\cb1 \
+\cb3     \cf2 \strokec2 var\cf4 \strokec4  \cf5 \strokec5 j\cf4 \strokec4  = \cf6 \strokec6 Math\cf4 \strokec4 .\cf5 \strokec5 floor\cf4 \strokec4 (\cf6 \strokec6 Math\cf4 \strokec4 .\cf5 \strokec5 random\cf4 \strokec4 () * (\cf5 \strokec5 i\cf4 \strokec4  + \cf9 \strokec9 1\cf4 \strokec4 ));\cb1 \
+\cb3     [\cf5 \strokec5 array\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ], \cf5 \strokec5 array\cf4 \strokec4 [\cf5 \strokec5 j\cf4 \strokec4 ]] = [\cf5 \strokec5 array\cf4 \strokec4 [\cf5 \strokec5 j\cf4 \strokec4 ], \cf5 \strokec5 array\cf4 \strokec4 [\cf5 \strokec5 i\cf4 \strokec4 ]];\cb1 \
+\cb3   \}\cb1 \
+\cb3   \cf2 \strokec2 return\cf4 \strokec4  \cf5 \strokec5 array\cf4 \strokec4 ;\cb1 \
+\cb3 \}\cb1 \
+\
+}
